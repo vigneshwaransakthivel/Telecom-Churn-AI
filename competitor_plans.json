@@ -1,0 +1,42 @@
+[
+    {
+        "provider": "Jio",
+        "price": 949,
+        "validity": 84,
+        "data_gb_day": 2.0,
+        "perks": ["JioHotstar", "Google Gemini Pro (18 months)", "50GB Cloud"],
+        "tier": "Premium"
+    },
+    {
+        "provider": "Airtel",
+        "price": 979,
+        "validity": 84,
+        "data_gb_day": 2.0,
+        "perks": ["Disney+ Hotstar", "Apollo 24|7", "Wynk Music"],
+        "tier": "Premium"
+    },
+    {
+        "provider": "Vi",
+        "price": 996,
+        "validity": 84,
+        "data_gb_day": 2.0,
+        "perks": ["Amazon Prime Lite", "Unlimited Night Data (12AM-12PM)", "Weekend Data Rollover"],
+        "tier": "Premium"
+    },
+    {
+        "provider": "Jio",
+        "price": 349,
+        "validity": 28,
+        "data_gb_day": 2.0,
+        "perks": ["Unlimited 5G"],
+        "tier": "Standard"
+    },
+    {
+        "provider": "Airtel",
+        "price": 379,
+        "validity": 28,
+        "data_gb_day": 2.0,
+        "perks": ["Xstream Play"],
+        "tier": "Standard"
+    }
+]

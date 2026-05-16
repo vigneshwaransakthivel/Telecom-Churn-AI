@@ -1,0 +1,3 @@
+Timestamp,Customer_ID,Used_Data_GB,Exhaustion_Days,Booster_Count,AI_Risk_Score,AI_Offer
+2026-05-17 00:42:39,SIMULATED_001,2.39,0,0,0.51,Unused Data Credit
+2026-05-17 01:08:30,SIMULATED_001,62.74,7,6,0.92,Paid Booster Bundle
