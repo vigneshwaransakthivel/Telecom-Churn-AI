@@ -64,24 +64,49 @@ with tab1:
         col4.metric("Healthy Portfolio", f"{total_customers - interventions:,}")
         
         st.markdown("---")
+        st.subheader("Intervention Analytics")
         
-        col_graph1, col_graph2 = st.columns(2)
-        with col_graph1:
-            st.subheader("Intervention Distribution")
+        # Row 1 of Charts
+        row1_col1, row1_col2 = st.columns(2)
+        
+        with row1_col1:
+            st.markdown("**Intervention Distribution**")
             offer_df = df[df['Offer_Category'] != 'No Action Needed']
             offer_counts = offer_df['Offer_Category'].value_counts().reset_index()
             offer_counts.columns = ['Offer', 'Count']
-            # Using a more professional blue color palette
-            fig1 = px.pie(offer_counts, values='Count', names='Offer', hole=0.4, color_discrete_sequence=px.colors.sequential.Blues_r)
-            st.plotly_chart(fig1, use_container_width=True)
+            fig_pie = px.pie(offer_counts, values='Count', names='Offer', hole=0.5, 
+                             color_discrete_sequence=px.colors.sequential.Blues_r)
+            fig_pie.update_layout(margin=dict(t=0, b=0, l=0, r=0))
+            st.plotly_chart(fig_pie, use_container_width=True)
             
-        with col_graph2:
-            st.subheader("Data Exhaustion vs Booster Frequency")
-            fig2 = px.scatter(offer_df, x="exhaustion_days", y="booster_count", color="Offer_Category",
-                              hover_data=["Customer_ID", "unused_data_gb"],
-                              labels={"exhaustion_days": "Data Exhaustion (Days)", "booster_count": "Add-on Purchases"},
-                              opacity=0.7, color_discrete_sequence=px.colors.qualitative.Prism)
-            st.plotly_chart(fig2, use_container_width=True)
+        with row1_col2:
+            st.markdown("**Risk Exposure by Spend Tier**")
+            # Analyze if higher spending customers are at more risk
+            risk_spend = df.groupby('Risk_Level')['total_monthly_spend'].mean().reset_index()
+            fig_bar = px.bar(risk_spend, x='Risk_Level', y='total_monthly_spend', 
+                             color='Risk_Level', color_discrete_map={'Low': '#2ecc71', 'Medium': '#f1c40f', 'High': '#e74c3c'},
+                             labels={'total_monthly_spend': 'Avg Monthly Spend (₹)'})
+            fig_bar.update_layout(showlegend=False)
+            st.plotly_chart(fig_bar, use_container_width=True)
+
+        # Row 2 of Charts
+        row2_col1, row2_col2 = st.columns(2)
+
+        with row2_col1:
+            st.markdown("**Usage Intensity by Risk Category**")
+            # Box plot to see the spread of data usage across risk levels
+            fig_box = px.box(df, x='Risk_Level', y='used_data_gb', color='Risk_Level',
+                             color_discrete_map={'Low': '#2ecc71', 'Medium': '#f1c40f', 'High': '#e74c3c'},
+                             points="all", labels={'used_data_gb': 'Data Consumed (GB)'})
+            st.plotly_chart(fig_box, use_container_width=True)
+
+        with row2_col2:
+            st.markdown("**Exhaustion vs. Booster Dependency Matrix**")
+            fig_scatter = px.scatter(offer_df, x="exhaustion_days", y="booster_count", color="Risk_Level",
+                                     size="total_monthly_spend", hover_data=["Customer_ID"],
+                                     color_discrete_map={'Medium': '#f1c40f', 'High': '#e74c3c'},
+                                     labels={"exhaustion_days": "Days Data Exhausted", "booster_count": "Add-on Purchases"})
+            st.plotly_chart(fig_scatter, use_container_width=True)
             
         st.markdown("---")
         st.subheader("Customer Intervention Lookup")
